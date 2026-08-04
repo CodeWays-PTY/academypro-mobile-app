@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import '../storage/local_storage.dart';
 
 class ApiClient {
-  static const String _productionUrl = 'https://academypro-api.tata-elash34.workers.dev';
+  static const String _productionUrl = 'https://api.academypro.co.za';
   
   static const String _activeBaseUrl = _productionUrl;
   static String get baseUrl => _activeBaseUrl;
