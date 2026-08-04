@@ -294,29 +294,42 @@ class _SinglePlayerBaselineModalState extends ConsumerState<SinglePlayerBaseline
 
           // Header
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Update Test Metrics',
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
-                  ),
-                  const SizedBox(height: 2.0),
-                  Text(
-                    'Record test metrics for ${widget.playerName}',
-                    style: const TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Update Test Metrics',
+                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color(0xFF0F172A), letterSpacing: -0.3),
+                    ),
+                    const SizedBox(height: 3.0),
+                    Text(
+                      'Record test metrics for ${widget.playerName}',
+                      style: const TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ],
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.close, color: Color(0xFF64748B)),
-                onPressed: () => Navigator.pop(context),
+              const SizedBox(width: 12.0),
+              InkWell(
+                onTap: () => Navigator.pop(context),
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                  padding: const EdgeInsets.all(6.0),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF1F5F9),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close_rounded, size: 18.0, color: Color(0xFF64748B)),
+                ),
               ),
             ],
           ),
-          const Divider(height: 18.0),
+          const SizedBox(height: 14.0),
 
           if (_isLoading)
             const Expanded(
@@ -325,86 +338,108 @@ class _SinglePlayerBaselineModalState extends ConsumerState<SinglePlayerBaseline
               ),
             )
           else ...[
-            // 1. SELECT FITNESS TEST EVENT (Locked when launched from a specific event)
-            Text(
-              widget.initialEvent != null ? 'FITNESS TEST EVENT (LOCKED)' : 'SELECT FITNESS TEST EVENT',
-              style: const TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.8),
-            ),
-            const SizedBox(height: 6.0),
-            DropdownButtonFormField<String>(
-              initialValue: (_testEvents.any((e) => e.id == _selectedEventId)) ? _selectedEventId : null,
-              isDense: true,
-              isExpanded: true,
-              borderRadius: BorderRadius.circular(14.0),
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  widget.initialEvent != null ? Icons.lock_clock : Icons.event_available,
-                  size: 18.0,
-                  color: widget.initialEvent != null ? const Color(0xFF64748B) : const Color(0xFFD97706),
-                ),
-                filled: true,
-                fillColor: widget.initialEvent != null ? const Color(0xFFF1F5F9) : const Color(0xFFF8FAFC),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFD97706), width: 1.5)),
+            // 1. EVENT & SESSION CONFIGURATION CARD
+            Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(16.0),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
               ),
-              hint: const Text('Select Test Event', style: TextStyle(fontSize: 13.0)),
-              items: _testEvents.isEmpty
-                  ? [
-                      const DropdownMenuItem<String>(
-                        value: null,
-                        child: Text('No Fitness Test events found', style: TextStyle(fontSize: 12.0, color: Colors.grey)),
-                      )
-                    ]
-                  : _testEvents.map((evt) {
-                      return DropdownMenuItem<String>(
-                        value: evt.id,
-                        child: Text(
-                          '${evt.title} (${evt.date})',
-                          style: TextStyle(
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.w600,
-                            color: widget.initialEvent != null ? const Color(0xFF64748B) : const Color(0xFF0F172A),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.initialEvent != null ? 'FITNESS TEST EVENT (LOCKED)' : 'SELECT FITNESS TEST EVENT',
+                    style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.8),
+                  ),
+                  const SizedBox(height: 6.0),
+                  DropdownButtonFormField<String>(
+                    initialValue: (_testEvents.any((e) => e.id == _selectedEventId)) ? _selectedEventId : null,
+                    isDense: true,
+                    isExpanded: true,
+                    borderRadius: BorderRadius.circular(14.0),
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        widget.initialEvent != null ? Icons.lock_clock : Icons.event_available,
+                        size: 18.0,
+                        color: widget.initialEvent != null ? const Color(0xFF64748B) : const Color(0xFF2563EB),
+                      ),
+                      filled: true,
+                      fillColor: widget.initialEvent != null ? const Color(0xFFF1F5F9) : Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5)),
+                    ),
+                    hint: const Text('Select Test Event', style: TextStyle(fontSize: 13.0)),
+                    items: _testEvents.isEmpty
+                        ? [
+                            const DropdownMenuItem<String>(
+                              value: null,
+                              child: Text('General Fitness Testing Session', style: TextStyle(fontSize: 12.0, color: Color(0xFF0F172A))),
+                            )
+                          ]
+                        : _testEvents.map((evt) {
+                            return DropdownMenuItem<String>(
+                              value: evt.id,
+                              child: Text(
+                                '${evt.title} (${evt.date})',
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: widget.initialEvent != null ? const Color(0xFF64748B) : const Color(0xFF0F172A),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                    onChanged: widget.initialEvent != null ? null : _onEventSelected,
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: TextFormField(
+                          controller: _sessionController,
+                          style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Color(0xFF0F172A)),
+                          decoration: InputDecoration(
+                            labelText: 'Session Name',
+                            labelStyle: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5)),
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      );
-                    }).toList(),
-              onChanged: widget.initialEvent != null ? null : _onEventSelected,
-            ),
-            const SizedBox(height: 14.0),
-
-            // Date & Session Name Info Row
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: _sessionController,
-                    decoration: InputDecoration(
-                      labelText: 'Session Name',
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                    ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          controller: _dateController,
+                          style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Color(0xFF0F172A)),
+                          decoration: InputDecoration(
+                            labelText: 'Date',
+                            labelStyle: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5)),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    controller: _dateController,
-                    decoration: InputDecoration(
-                      labelText: 'Date',
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 14.0),
 
@@ -427,8 +462,34 @@ class _SinglePlayerBaselineModalState extends ConsumerState<SinglePlayerBaseline
             // 2. LIST ALL METRICS AS TEXT INPUT BOXES
             Expanded(
               child: _testMetrics.isEmpty
-                  ? const Center(
-                      child: Text('No test metrics configured yet.', style: TextStyle(color: Color(0xFF64748B))),
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(14.0),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFEFF6FF),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.assessment_outlined, size: 32.0, color: Color(0xFF2563EB)),
+                            ),
+                            const SizedBox(height: 12.0),
+                            const Text(
+                              'No Fitness Metrics Configured',
+                              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                            ),
+                            const SizedBox(height: 4.0),
+                            const Text(
+                              'Metrics created in Web Admin will appear here for baseline entry.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
+                            ),
+                          ],
+                        ),
+                      ),
                     )
                   : ListView.separated(
                       itemCount: _testMetrics.length,
