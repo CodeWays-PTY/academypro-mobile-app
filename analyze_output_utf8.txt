@@ -1,0 +1,222 @@
+﻿Resolving dependencies...
+Downloading packages...
+  connectivity_plus 6.1.5 (7.3.1 available)
+  dio 5.10.0 (5.11.0 available)
+  dio_web_adapter 2.2.0 (2.2.1 available)
+  fl_chart 0.68.0 (1.2.0 available)
+  flutter_local_notifications 17.2.4 (22.2.0 available)
+  flutter_local_notifications_linux 4.0.1 (8.0.1 available)
+  flutter_local_notifications_platform_interface 7.2.0 (12.1.0 available)
+  flutter_riverpod 2.6.1 (3.4.2 available)
+  hooks 2.0.2 (2.1.0 available)
+  intl 0.19.0 (0.20.3 available)
+  jni 1.0.0 (1.0.3 available)
+  jni_flutter 1.0.1 (1.0.2 available)
+  matcher 0.12.19 (0.12.20 available)
+  meta 1.18.0 (1.19.0 available)
+  objective_c 9.4.1 (9.5.0 available)
+  package_config 2.2.0 (3.0.0 available)
+  package_info_plus 8.3.1 (10.2.1 available)
+  package_info_plus_platform_interface 3.2.1 (4.1.0 available)
+  permission_handler 11.4.0 (13.0.0 available)
+  permission_handler_android 12.1.0 (14.0.0 available)
+  permission_handler_apple 9.4.10 (9.5.0 available)
+  permission_handler_html 0.1.3+5 (0.1.4+1 available)
+  permission_handler_platform_interface 4.3.0 (4.4.0 available)
+  permission_handler_windows 0.2.1 (0.2.2 available)
+  record_use 0.6.0 (1.0.0 available)
+  riverpod 2.6.1 (3.4.2 available)
+  test_api 0.7.11 (0.7.13 available)
+  timezone 0.9.4 (0.11.1 available)
+  vector_math 2.2.0 (2.4.2 available)
+  win32 5.15.0 (6.3.0 available)
+  xml 6.6.1 (7.0.1 available)
+Got dependencies!
+31 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing academypro_app...                                     
+
+warning - Unused import: 'package:flutter/foundation.dart'. Try removing the import directive - lib\core\network\api_client.dart:2:8 - unused_import
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\core\presentation\network_error_screen.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\core\presentation\network_error_screen.dart:130:58 - deprecated_member_use
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\core\services\notification_service.dart:36:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\core\services\notification_service.dart:60:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\core\services\notification_service.dart:95:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\core\services\notification_service.dart:103:7 - avoid_print
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre. Try replacing the use of the deprecated member with the replacement - lib\core\theme\app_theme.dart:35:9 - deprecated_member_use
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre. Try replacing the use of the deprecated member with the replacement - lib\core\theme\app_theme.dart:37:9 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\core\utils\app_toast.dart:108:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\core\utils\app_toast.dart:133:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\core\utils\app_toast.dart:143:61 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\core\widgets\country_code_picker.dart:90:45 - unnecessary_underscores
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\auth\presentation\auth_state.dart:152:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\auth\presentation\auth_state.dart:166:7 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\auth\presentation\coach_welcome_wizard_screen.dart:119:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\auth\presentation\coach_welcome_wizard_screen.dart:135:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\auth\presentation\coach_welcome_wizard_screen.dart:152:56 - deprecated_member_use
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\auth\presentation\coach_welcome_wizard_screen.dart:247:11 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\auth\presentation\coach_welcome_wizard_screen.dart:562:64 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\auth\presentation\login_screen.dart:13:9 - use_super_parameters
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\auth\presentation\login_screen.dart:167:41 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\auth\presentation\login_screen.dart:167:45 - unnecessary_underscores
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:101:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:380:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:427:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:449:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:520:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:561:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:807:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:852:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:856:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:885:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:889:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:906:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\dashboard_controller.dart:910:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:116:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:137:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:152:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:171:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:190:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:241:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\controllers\roster_controller.dart:286:7 - avoid_print
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\add_existing_player_modal.dart:11:9 - use_super_parameters
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\add_existing_player_modal.dart:261:47 - unnecessary_underscores
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\add_player_modal.dart:12:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\add_player_modal.dart:20:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\add_player_modal.dart:125:56 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList' - lib\features\dashboard\presentation\add_player_modal.dart:249:30 - unnecessary_to_list_in_spreads
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\batch_test_logger_modal.dart:12:9 - use_super_parameters
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\presentation\batch_test_logger_modal.dart:205:7 - avoid_print
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\batch_test_logger_modal.dart:274:23 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\batch_test_logger_modal.dart:276:11 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\batch_test_logger_modal.dart:282:11 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\batch_test_logger_modal.dart:288:26 - use_build_context_synchronously
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\batch_test_logger_modal.dart:640:45 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\batch_test_logger_modal.dart:661:74 - deprecated_member_use
+   info - Unnecessary braces in a string interpolation. Try removing the braces - lib\features\dashboard\presentation\batch_test_logger_modal.dart:680:77 - unnecessary_brace_in_string_interps
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\checkin_tab_view.dart:12:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\checkin_tab_view.dart:245:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\checkin_tab_view.dart:303:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\checkin_tab_view.dart:316:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\checkin_tab_view.dart:471:63 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\checkin_tab_view.dart:530:28 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\checkin_tab_view.dart:748:51 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext - lib\features\dashboard\presentation\checkin_tab_view.dart:868:33 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext - lib\features\dashboard\presentation\checkin_tab_view.dart:874:33 - use_build_context_synchronously
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\create_action_modal.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\create_event_modal.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\create_event_modal.dart:20:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\create_event_modal.dart:886:76 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\create_event_modal.dart:1039:25 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\create_squad_modal.dart:11:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\create_squad_modal.dart:19:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\create_squad_modal.dart:110:50 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\dashboard_screen.dart:405:43 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\dashboard_screen.dart:416:26 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\dashboard_screen.dart:461:30 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\dashboard_screen.dart:497:43 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\dashboard_screen.dart:576:39 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\dashboard_screen.dart:660:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\dashboard_screen.dart:685:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\dashboard_screen.dart:1138:39 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\events_tab_view.dart:14:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext - lib\features\dashboard\presentation\events_tab_view.dart:106:50 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\events_tab_view.dart:501:34 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\events_tab_view.dart:689:27 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\events_tab_view.dart:689:31 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\events_tab_view.dart:695:27 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\events_tab_view.dart:695:31 - unnecessary_underscores
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\manage_metrics_modal.dart:6:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\manage_metrics_modal.dart:85:30 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\manage_metrics_modal.dart:90:30 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check - lib\features\dashboard\presentation\manage_metrics_modal.dart:95:28 - use_build_context_synchronously
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\manage_metrics_modal.dart:192:25 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\manage_metrics_modal.dart:251:25 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\manage_metrics_modal.dart:302:47 - unnecessary_underscores
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\manage_player_squads_modal.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\profile_tab_view.dart:17:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\profile_tab_view.dart:927:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\profile_tab_view.dart:953:64 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\profile_tab_view.dart:966:61 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\profile_tab_view.dart:966:65 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\profile_tab_view.dart:976:61 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\profile_tab_view.dart:976:65 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\profile_tab_view.dart:1211:32 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor or activeTrackColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\profile_tab_view.dart:1343:9 - deprecated_member_use
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive - lib\features\dashboard\presentation\qr_scanner_modal.dart:3:8 - unnecessary_import
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\qr_scanner_modal.dart:9:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\qr_scanner_modal.dart:164:85 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\qr_scanner_modal.dart:204:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\qr_scanner_modal.dart:240:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\qr_scanner_modal.dart:254:49 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\roster_tab_view.dart:15:9 - use_super_parameters
+   info - The private field _selectedAgeGroup could be 'final'. Try making the field 'final' - lib\features\dashboard\presentation\roster_tab_view.dart:22:10 - prefer_final_fields
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\roster_tab_view.dart:150:49 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\roster_tab_view.dart:328:39 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\roster_tab_view.dart:783:59 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList' - lib\features\dashboard\presentation\roster_tab_view.dart:1004:38 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\roster_tab_view.dart:1099:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\dashboard\presentation\single_player_baseline_modal.dart:13:9 - use_super_parameters
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\dashboard\presentation\single_player_baseline_modal.dart:161:7 - avoid_print
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\single_player_baseline_modal.dart:312:15 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\dashboard\presentation\single_player_baseline_modal.dart:412:45 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\dashboard\presentation\single_player_baseline_modal.dart:433:66 - deprecated_member_use
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\notifications\controllers\notification_controller.dart:79:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\notifications\controllers\notification_controller.dart:105:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\notifications\controllers\notification_controller.dart:117:7 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\notifications\controllers\notification_controller.dart:133:9 - avoid_print
+   info - Don't invoke 'print' in production code. Try using a logging framework - lib\features\notifications\controllers\notification_controller.dart:152:7 - avoid_print
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\notifications\presentation\notifications_panel.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\notifications\presentation\notifications_panel.dart:328:54 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\parent\presentation\parent_dashboard_screen.dart:15:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext - lib\features\parent\presentation\parent_dashboard_screen.dart:119:47 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check. Guard a 'State.context' use with a 'mounted' check on the State, and other BuildContext use with a 'mounted' check on the BuildContext - lib\features\parent\presentation\parent_dashboard_screen.dart:121:35 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:175:67 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:357:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:371:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:405:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:456:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:458:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:479:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:522:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:552:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:722:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:831:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:857:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:928:59 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\parent\presentation\parent_dashboard_screen.dart:1011:29 - unnecessary_underscores
+   info - Statements in an if should be enclosed in a block. Try wrapping the statement in a block - lib\features\parent\presentation\parent_dashboard_screen.dart:1018:54 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block. Try wrapping the statement in a block - lib\features\parent\presentation\parent_dashboard_screen.dart:1019:56 - curly_braces_in_flow_control_structures
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\parent\presentation\parent_dashboard_screen.dart:1060:29 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\parent\presentation\parent_dashboard_screen.dart:1156:37 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter. Trying converting 'key' to a super parameter - lib\features\student\presentation\student_dashboard_screen.dart:20:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:75:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:227:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:320:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:323:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:337:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:379:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:415:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:568:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:680:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:870:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:895:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:1060:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:1068:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:1927:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:1938:41 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:2215:31 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:2233:31 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:2251:31 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:2481:41 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:2481:45 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:2779:51 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:2779:55 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:2789:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:2992:68 - deprecated_member_use
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:3096:39 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores. Try using '_' - lib\features\student\presentation\student_dashboard_screen.dart:3096:43 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:3109:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\features\student\presentation\student_dashboard_screen.dart:3147:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement - lib\main.dart:141:52 - deprecated_member_use
+
