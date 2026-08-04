@@ -566,14 +566,10 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(ctx);
-                      Navigator.push(
+                      TestAthletesPage.show(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => TestAthletesPage(
-                            event: event,
-                            ageGroup: event.team.isNotEmpty ? event.team : 'U15',
-                          ),
-                        ),
+                        event: event,
+                        ageGroup: event.team.isNotEmpty ? event.team : 'U15',
                       );
                     },
                     icon: const Icon(Icons.speed, size: 18.0),

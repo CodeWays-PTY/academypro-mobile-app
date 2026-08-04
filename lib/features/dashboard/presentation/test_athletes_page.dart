@@ -7,10 +7,20 @@ import '../../../core/utils/app_toast.dart';
 import 'athlete_score_sheet.dart';
 
 class TestAthletesPage extends ConsumerStatefulWidget {
-  final dynamic event; // Should be CoachEvent model
+  final dynamic event;
   final String ageGroup;
 
-  const TestAthletesPage({Key? key, required this.event, required this.ageGroup}) : super(key: key);
+  const TestAthletesPage({super.key, required this.event, required this.ageGroup});
+
+  static void show(BuildContext context, {required dynamic event, required String ageGroup}) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => TestAthletesPage(event: event, ageGroup: ageGroup),
+    );
+  }
 
   @override
   ConsumerState<TestAthletesPage> createState() => _TestAthletesPageState();
@@ -86,28 +96,52 @@ class _TestAthletesPageState extends ConsumerState<TestAthletesPage> {
     }
     final dateStr = parsedDate != null ? DateFormat('MMM d, yyyy').format(parsedDate) : (widget.event.date ?? '');
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.event.title ?? 'Event', style: const TextStyle(color: Color(0xFF0F172A), fontSize: 18, fontWeight: FontWeight.bold)),
-            Text(dateStr, style: const TextStyle(color: Color(0xFF475569), fontSize: 14)),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.9,
+      decoration: const BoxDecoration(
+        color: Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      body: RefreshIndicator(
-        onRefresh: _fetchData,
-        color: const Color(0xFF2563EB),
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: Color(0xFF2563EB)))
-            : _roster.isEmpty
-                ? _buildEmptyState()
-                : _buildAthletesList(),
+      child: Column(
+        children: [
+          // Drag handle
+          Container(
+            margin: const EdgeInsets.only(top: 12, bottom: 4),
+            width: 40, height: 4,
+            decoration: BoxDecoration(color: const Color(0xFFCBD5E1), borderRadius: BorderRadius.circular(2)),
+          ),
+          // Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.event.title ?? 'Event', style: const TextStyle(color: Color(0xFF0F172A), fontSize: 18, fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Text(dateStr, style: const TextStyle(color: Color(0xFF475569), fontSize: 14)),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close, color: Color(0xFF475569)),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          // Content
+          Expanded(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator(color: Color(0xFF2563EB)))
+                : _roster.isEmpty
+                    ? _buildEmptyState()
+                    : _buildAthletesList(),
+          ),
+        ],
       ),
     );
   }

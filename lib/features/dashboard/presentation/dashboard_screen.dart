@@ -248,12 +248,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: OutlinedButton.icon(
                     onPressed: () {
                       final currentAge = ref.read(selectedAgeGroupProvider);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => TestEventsPage(ageGroup: currentAge),
-                        ),
-                      );
+                      TestEventsPage.show(context, ageGroup: currentAge);
                     },
                     icon: const Icon(Icons.speed, size: 16.0, color: Color(0xFF2563EB)),
                     label: const Text('Log Squad Test', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),

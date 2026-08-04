@@ -10,7 +10,17 @@ import 'test_athletes_page.dart';
 class TestEventsPage extends ConsumerStatefulWidget {
   final String ageGroup;
 
-  const TestEventsPage({Key? key, required this.ageGroup}) : super(key: key);
+  const TestEventsPage({super.key, required this.ageGroup});
+
+  static void show(BuildContext context, {String ageGroup = 'U15'}) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => TestEventsPage(ageGroup: ageGroup),
+    );
+  }
 
   @override
   ConsumerState<TestEventsPage> createState() => _TestEventsPageState();
@@ -107,28 +117,50 @@ class _TestEventsPageState extends ConsumerState<TestEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Squad Test Events', style: TextStyle(color: Color(0xFF0F172A), fontSize: 18, fontWeight: FontWeight.bold)),
-            Text(widget.ageGroup, style: const TextStyle(color: Color(0xFF475569), fontSize: 14)),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.9,
+      decoration: const BoxDecoration(
+        color: Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      body: RefreshIndicator(
-        onRefresh: _fetchData,
-        color: const Color(0xFF2563EB),
-        child: _isLoading 
-            ? const Center(child: CircularProgressIndicator(color: Color(0xFF2563EB)))
-            : _events.isEmpty
-                ? _buildEmptyState()
-                : _buildEventsList(),
+      child: Column(
+        children: [
+          // Drag handle
+          Container(
+            margin: const EdgeInsets.only(top: 12, bottom: 4),
+            width: 40, height: 4,
+            decoration: BoxDecoration(color: const Color(0xFFCBD5E1), borderRadius: BorderRadius.circular(2)),
+          ),
+          // Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Squad Test Events', style: TextStyle(color: Color(0xFF0F172A), fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(widget.ageGroup, style: const TextStyle(color: Color(0xFF475569), fontSize: 14)),
+                  ],
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close, color: Color(0xFF475569)),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          // Content
+          Expanded(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator(color: Color(0xFF2563EB)))
+                : _events.isEmpty
+                    ? _buildEmptyState()
+                    : _buildEventsList(),
+          ),
+        ],
       ),
     );
   }
@@ -191,12 +223,8 @@ class _TestEventsPageState extends ConsumerState<TestEventsPage> {
           padding: const EdgeInsets.only(bottom: 12),
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TestAthletesPage(event: event, ageGroup: widget.ageGroup),
-                ),
-              ).then((_) => _fetchData()); // Refresh on return
+              Navigator.pop(context); // Close events modal
+              TestAthletesPage.show(context, event: event, ageGroup: widget.ageGroup);
             },
             borderRadius: BorderRadius.circular(16),
             child: Container(
