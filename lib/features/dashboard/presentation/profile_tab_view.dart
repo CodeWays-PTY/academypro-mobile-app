@@ -1144,7 +1144,26 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12.0),
+
+            // Delete Account Button (Apple App Store Guideline 5.1.1(v))
+            SizedBox(
+              width: double.infinity,
+              height: 48.0,
+              child: TextButton.icon(
+                onPressed: () => _confirmDeleteAccount(context),
+                icon: const Icon(Icons.delete_forever, size: 18.0, color: Color(0xFFBA1A1A)),
+                label: const Text(
+                  'Delete Account',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFFBA1A1A),
                   ),
                 ),
               ),
@@ -1364,6 +1383,65 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             ),
             child: const Text('Sign Out', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteAccount(BuildContext context) {
+    HapticFeedback.mediumImpact();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        actionsPadding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
+        title: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFBA1A1A))),
+        content: const Text(
+          'Are you sure you want to permanently delete your AcademyPro account? All associated account data, profile details, and preferences will be permanently erased. This action cannot be undone.',
+        ),
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.pop(ctx),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Color(0xFFCBD5E1)),
+              foregroundColor: const Color(0xFF475569),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            ),
+            child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final authState = ref.read(authProvider);
+              final email = authState.email ?? authState.userProfile?['email'] ?? '';
+              final userId = authState.userProfile?['id']?.toString() ?? '';
+              try {
+                final apiClient = ref.read(apiClientProvider);
+                await apiClient.post('/api/user/delete-account', data: {
+                  'email': email,
+                  'userId': userId,
+                });
+              } catch (e) {
+                debugPrint('[Account Deletion Error] $e');
+              }
+              await ref.read(authProvider.notifier).logout();
+              if (!context.mounted) return;
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFBA1A1A),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            ),
+            child: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),

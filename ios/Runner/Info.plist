@@ -7,7 +7,25 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Coach App</string>
+	<string>AcademyPro</string>
+	<key>NSCameraUsageDescription</key>
+	<string>AcademyPro requires camera access to scan QR codes for athlete event check-ins and capture profile photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AcademyPro requires access to your photo library to select profile pictures and upload document attachments.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>AcademyPro requires permission to save photos to your photo library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>AcademyPro requires microphone access for audio and video recording features.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+		<string>tel</string>
+		<string>mailto</string>
+		<string>sms</string>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

@@ -46,6 +46,54 @@ class _StudentDashboardScreenState extends ConsumerState<StudentDashboardScreen>
     }
   }
 
+  void _handleDeleteAccount() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        title: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFDC2626))),
+        content: const Text(
+          'Are you sure you want to permanently delete your account and all associated profile data? This action cannot be undone.',
+        ),
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final authState = ref.read(authProvider);
+              final email = authState.email ?? authState.userProfile?['email'] ?? '';
+              final userId = authState.userProfile?['id']?.toString() ?? '';
+              try {
+                final apiClient = ref.read(apiClientProvider);
+                await apiClient.post('/api/user/delete-account', data: {
+                  'email': email,
+                  'userId': userId,
+                });
+              } catch (e) {
+                debugPrint('[Account Deletion Error] $e');
+              }
+              await ref.read(authProvider.notifier).logout();
+              if (!mounted) return;
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final studentDataState = ref.watch(studentControllerProvider);
@@ -2131,6 +2179,13 @@ class _StudentDashboardScreenState extends ConsumerState<StudentDashboardScreen>
             side: const BorderSide(color: Color(0xFFFCA5A5)),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           ),
+        ),
+        const SizedBox(height: 12.0),
+
+        TextButton.icon(
+          onPressed: _handleDeleteAccount,
+          icon: const Icon(Icons.delete_forever, size: 18.0, color: Color(0xFFDC2626)),
+          label: const Text('Delete Account', style: TextStyle(color: Color(0xFFDC2626), fontWeight: FontWeight.w600)),
         ),
       ],
     );

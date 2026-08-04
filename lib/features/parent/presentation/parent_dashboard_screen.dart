@@ -41,6 +41,54 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
     }
   }
 
+  void _handleDeleteAccount() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        title: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFDC2626))),
+        content: const Text(
+          'Are you sure you want to permanently delete your parent account and associated linkages? This action cannot be undone.',
+        ),
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final authState = ref.read(authProvider);
+              final email = authState.email ?? authState.userProfile?['email'] ?? '';
+              final userId = authState.userProfile?['id']?.toString() ?? '';
+              try {
+                final apiClient = ref.read(apiClientProvider);
+                await apiClient.post('/api/user/delete-account', data: {
+                  'email': email,
+                  'userId': userId,
+                });
+              } catch (e) {
+                debugPrint('[Account Deletion Error] $e');
+              }
+              await ref.read(authProvider.notifier).logout();
+              if (!mounted) return;
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC2626),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Delete Account', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showLinkChildModal(BuildContext context) {
     final emailCtrl = TextEditingController();
     bool submitting = false;
@@ -243,9 +291,34 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
             tooltip: 'Link Child Account',
             onPressed: () => _showLinkChildModal(context),
           ),
-          IconButton(
-            icon: const Icon(Icons.logout_outlined, color: Color(0xFF64748B)),
-            onPressed: _handleLogout,
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Color(0xFF64748B)),
+            onSelected: (val) {
+              if (val == 'logout') _handleLogout();
+              if (val == 'delete') _handleDeleteAccount();
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.logout_outlined, size: 18, color: Color(0xFF475569)),
+                    SizedBox(width: 8),
+                    Text('Sign Out'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'delete',
+                child: Row(
+                  children: [
+                    Icon(Icons.delete_forever, size: 18, color: Color(0xFFDC2626)),
+                    SizedBox(width: 8),
+                    Text('Delete Account', style: TextStyle(color: Color(0xFFDC2626))),
+                  ],
+                ),
+              ),
+            ],
           ),
           const SizedBox(width: 8.0),
         ],
