@@ -729,7 +729,7 @@ class _CheckInTabViewState extends ConsumerState<CheckInTabView> {
                         if (checkInState.selectedEvent == null) {
                           _showMandatoryEventPickerDialog(context);
                         } else {
-                          ref.read(checkInProvider.notifier).toggleCheckIn(player.id);
+                          ref.read(checkInProvider.notifier).toggleAndSaveCheckIn(player.id);
                         }
                       },
                       borderRadius: BorderRadius.circular(16.0),
@@ -844,59 +844,6 @@ class _CheckInTabViewState extends ConsumerState<CheckInTabView> {
                     );
                   },
                 ),
-
-              const SizedBox(height: 24.0),
-
-              // ===================================================================
-              // 7. SUBMIT PRACTICE ATTENDANCE BUTTON (NON-LOCKING)
-              // ===================================================================
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: checkInState.loading
-                      ? null
-                      : () async {
-                          if (checkInState.selectedEvent == null) {
-                            _showMandatoryEventPickerDialog(context);
-                            return;
-                          }
-                          HapticFeedback.mediumImpact();
-                          final success = await ref.read(checkInProvider.notifier).submitAttendance();
-                          if (!mounted) return;
-                          if (success) {
-                            AppToast.showSuccess(
-                              this.context,
-                              title: 'Attendance Record Saved',
-                              message: 'Practice session check-in complete. ${checkInState.checkedInCount} athlete(s) marked Present.',
-                            );
-                          } else {
-                            AppToast.showInfo(
-                              this.context,
-                              title: 'Attendance Queued Offline',
-                              message: 'Check-in saved locally. Will sync automatically when connection restores.',
-                            );
-                          }
-                        },
-                  icon: const Icon(Icons.cloud_upload_outlined, size: 20.0),
-                  label: checkInState.loading
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.0),
-                        )
-                      : Text(
-                          'Confirm & Save Practice Attendance (${checkInState.checkedInCount}/${checkInState.totalCount})',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-                        ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF003EC7),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0)),
-                  ),
-                ),
-              ),
 
               const SizedBox(height: 32.0),
             ],

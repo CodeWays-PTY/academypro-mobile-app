@@ -218,6 +218,36 @@ class CheckInNotifier extends StateNotifier<CheckInState> {
     return result;
   }
 
+  /// Toggle + immediately save to API (fire-and-forget)
+  Future<CheckInScanResult> toggleAndSaveCheckIn(String playerId) async {
+    final result = toggleCheckIn(playerId);
+    if (!result.success || state.selectedEvent == null) return result;
+
+    // Fire-and-forget: save this individual check-in to the server
+    try {
+      final checkedInIds = state.playerRecords.values
+          .where((r) => r.isCheckedIn)
+          .map((r) => r.player.id)
+          .toList();
+
+      final nowStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      await _apiClient.post('/api/dashboard/checkin', data: {
+        'eventId': state.selectedEvent?.id,
+        'eventTitle': state.selectedEvent?.title,
+        'sessionType': state.selectedEvent?.eventType ?? (state.sessionType == 'Field Practice' ? 'Field' : 'Gym'),
+        'date': state.selectedEvent?.date ?? nowStr,
+        'ageGroup': state.activeAgeGroup,
+        'checkedInPlayerIds': checkedInIds,
+      });
+      // Silently refresh dashboard summary
+      _ref.read(dashboardSummaryProvider.notifier).fetchSummary(ageGroup: state.activeAgeGroup);
+    } catch (_) {
+      // Silent fail — the toggle is already applied locally
+    }
+
+    return result;
+  }
+
   CheckInScanResult processQRScan(String rawQrData) {
     String cleanId = rawQrData.trim();
     if (cleanId.contains('"playerId"')) {
