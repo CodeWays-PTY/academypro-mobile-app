@@ -54,8 +54,8 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
   // Nested controllers map: [metricId][playerId] -> TextEditingController
   final Map<String, Map<String, TextEditingController>> _scoreControllers = {};
 
-  // Baselines reference map: [playerId][metricId] -> String (e.g. "5.42" or null)
-  final Map<String, Map<String, String>> _playerBaselines = {};
+  // Event-scoped saved scores map: [playerId][metricId] -> score value
+  final Map<String, Map<String, String>> _savedEventScores = {};
 
   @override
   void initState() {
@@ -159,65 +159,27 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
         }
       }
 
-      // 3. Fetch Squad Roster Players & Baseline References
+      // 3. Fetch Squad Roster Players
       final rosterRes = await apiClient.getAndCache('/api/rosters/$_selectedAgeGroup');
       if (rosterRes.statusCode == 200 && rosterRes.data['success'] == true) {
         _players = rosterRes.data['data']['players'] ?? [];
 
-        // Build controllers map and extract baselines reference
+        // Build controllers map for all metrics x players
         _disposeScoreControllers();
-        _playerBaselines.clear();
 
         for (var m in _testMetrics) {
-          final metricId = m['id'];
-          _scoreControllers[metricId] = {};
+          final mIdStr = m['id']?.toString() ?? '';
+          _scoreControllers[mIdStr] = {};
 
           for (var p in _players) {
             final pIdStr = p['id']?.toString() ?? '';
-            final mIdStr = metricId?.toString() ?? '';
-            // Inputs start empty by default as requested
-            _scoreControllers[mIdStr] ??= {};
             _scoreControllers[mIdStr]![pIdStr] = TextEditingController();
-
-            // Extract previous baseline if present in player data
-            if (!_playerBaselines.containsKey(pIdStr)) {
-              _playerBaselines[pIdStr] = {};
-            }
-
-            // Extract baseline from player baselines array/object if available
-            String? prevVal;
-            final baselines = p['fitnessBaselines'] ?? p['testLogs'] ?? p['baselines'];
-            if (baselines is List) {
-              final targetMetricIdStr = metricId?.toString();
-              final targetMetricNameStr = (m['name'] ?? '').toString().toLowerCase();
-
-              final match = baselines.firstWhere(
-                (b) {
-                  final bMetricId = (b['metric_id'] ?? b['metricId'])?.toString();
-                  final bMetricName = (b['metricName'] ?? b['metric_name'] ?? '').toString().toLowerCase();
-
-                  return (bMetricId != null && targetMetricIdStr != null && bMetricId == targetMetricIdStr) ||
-                         (bMetricName.isNotEmpty && targetMetricNameStr.isNotEmpty && bMetricName == targetMetricNameStr);
-                },
-                orElse: () => null,
-              );
-              if (match != null && match['score'] != null) {
-                prevVal = match['score'].toString();
-              }
-            } else if (baselines is Map) {
-              final targetMetricIdStr = metricId?.toString();
-              for (var entry in baselines.entries) {
-                if (entry.key.toString() == targetMetricIdStr) {
-                  prevVal = entry.value?.toString();
-                  break;
-                }
-              }
-            }
-
-            _playerBaselines[pIdStr]![mIdStr] = prevVal ?? '--';
           }
         }
       }
+
+      // 4. Load saved scores for selected event and pre-fill inputs
+      await _loadEventScores();
     } catch (e) {
       debugPrint('Error loading batch logger data: $e');
     } finally {
@@ -242,6 +204,55 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
       _sessionController.text = evt.title;
       _dateController.text = evt.date;
     });
+    // Reload saved scores for the newly selected event
+    _loadEventScores();
+  }
+
+  /// Fetch saved test scores scoped to the current event+date from the API
+  /// and pre-fill input fields with existing values.
+  Future<void> _loadEventScores() async {
+    if (_selectedEventId == null) return;
+    try {
+      final apiClient = ref.read(apiClientProvider);
+      final testDate = _dateController.text.trim();
+      final res = await apiClient.getAndCache(
+        '/api/test-logs/by-event?eventId=$_selectedEventId&testDate=$testDate',
+      );
+
+      if (res.statusCode == 200 && res.data['success'] == true) {
+        final scoreMap = res.data['data'] as Map<String, dynamic>? ?? {};
+
+        setState(() {
+          _savedEventScores.clear();
+
+          // Populate saved scores map and pre-fill input controllers
+          scoreMap.forEach((playerId, metricScores) {
+            if (metricScores is Map) {
+              _savedEventScores[playerId] = {};
+              metricScores.forEach((metricId, score) {
+                final mIdStr = metricId.toString();
+                final scoreStr = score.toString();
+                _savedEventScores[playerId]![mIdStr] = scoreStr;
+
+                // Pre-fill the input controller if it exists and is currently empty
+                final controller = _scoreControllers[mIdStr]?[playerId];
+                if (controller != null && controller.text.trim().isEmpty) {
+                  // Format: remove trailing .0 for whole numbers
+                  final numVal = double.tryParse(scoreStr);
+                  if (numVal != null && numVal == numVal.roundToDouble()) {
+                    controller.text = numVal.toInt().toString();
+                  } else {
+                    controller.text = scoreStr;
+                  }
+                }
+              });
+            }
+          });
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading event scores: $e');
+    }
   }
 
   int _getTotalFilledCount() {
@@ -319,26 +330,10 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
         ref.invalidate(dashboardSummaryProvider);
         ref.invalidate(dashboardEventsProvider);
 
-        // Update local baselines reference map in-place so UI immediately updates Prev scores
-        setState(() {
-          for (var entry in logs) {
-            final pId = entry['playerId']?.toString();
-            final mId = entry['metricId']?.toString();
-            final scoreVal = entry['score']?.toString();
-            if (pId != null && mId != null && scoreVal != null) {
-              if (!_playerBaselines.containsKey(pId)) {
-                _playerBaselines[pId] = {};
-              }
-              _playerBaselines[pId]![mId] = scoreVal;
+        // Re-fetch event scores from API and pre-fill inputs with saved values
+        await _loadEventScores();
 
-              // Clear input field so score moves to 'Prev:' indicator
-              if (_scoreControllers.containsKey(mId) && _scoreControllers[mId]!.containsKey(pId)) {
-                _scoreControllers[mId]![pId]!.clear();
-              }
-            }
-          }
-        });
-
+        if (!mounted) return;
         AppToast.showSuccess(
           context,
           title: 'Scores Recorded',
@@ -718,9 +713,6 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
                         final metricId = _selectedMetricId ?? '';
                         final controller = _scoreControllers[metricId]?[playerId];
 
-                        final prevBaseline = _playerBaselines[playerId]?[metricId] ?? '--';
-                        final unit = selectedMetric != null ? selectedMetric['unit'] : '';
-
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
                           decoration: BoxDecoration(
@@ -757,36 +749,25 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
                                   ],
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    width: 110.0,
-                                    child: TextFormField(
-                                      controller: controller,
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter Score',
-                                        hintStyle: const TextStyle(fontSize: 11.5, color: Color(0xFF94A3B8), fontWeight: FontWeight.normal),
-                                        isDense: true,
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
-                                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
-                                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5)),
-                                      ),
-                                    ),
+                              SizedBox(
+                                width: 110.0,
+                                child: TextFormField(
+                                  controller: controller,
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Score',
+                                    hintStyle: const TextStyle(fontSize: 11.5, color: Color(0xFF94A3B8), fontWeight: FontWeight.normal),
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFFCBD5E1))),
+                                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5)),
                                   ),
-                                  const SizedBox(height: 3.0),
-                                  // Baseline reference underneath as requested
-                                  Text(
-                                    'Prev: ${prevBaseline != '--' ? '$prevBaseline $unit' : '--'}',
-                                    style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
