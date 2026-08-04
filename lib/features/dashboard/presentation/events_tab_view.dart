@@ -8,7 +8,7 @@ import '../../../core/utils/app_toast.dart';
 import '../controllers/dashboard_controller.dart';
 import '../controllers/checkin_controller.dart';
 import 'create_event_modal.dart';
-import 'batch_test_logger_modal.dart';
+import 'test_athletes_page.dart';
 
 class EventsTabView extends ConsumerStatefulWidget {
   const EventsTabView({super.key});
@@ -566,10 +566,14 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(ctx);
-                      BatchTestLoggerModal.show(
+                      Navigator.push(
                         context,
-                        ageGroup: event.team.isNotEmpty ? event.team : 'U15',
-                        initialEvent: event,
+                        MaterialPageRoute(
+                          builder: (_) => TestAthletesPage(
+                            event: event,
+                            ageGroup: event.team.isNotEmpty ? event.team : 'U15',
+                          ),
+                        ),
                       );
                     },
                     icon: const Icon(Icons.speed, size: 18.0),

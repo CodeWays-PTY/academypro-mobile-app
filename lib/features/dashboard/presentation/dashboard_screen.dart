@@ -14,7 +14,7 @@ import 'events_tab_view.dart';
 import 'profile_tab_view.dart';
 import 'create_action_modal.dart';
 import 'manage_metrics_modal.dart';
-import 'batch_test_logger_modal.dart';
+import 'test_events_page.dart';
 
 import '../../notifications/controllers/notification_controller.dart';
 import '../../notifications/presentation/notifications_panel.dart';
@@ -248,7 +248,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: OutlinedButton.icon(
                     onPressed: () {
                       final currentAge = ref.read(selectedAgeGroupProvider);
-                      BatchTestLoggerModal.show(context, ageGroup: currentAge);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TestEventsPage(ageGroup: currentAge),
+                        ),
+                      );
                     },
                     icon: const Icon(Icons.speed, size: 16.0, color: Color(0xFF2563EB)),
                     label: const Text('Log Squad Test', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
