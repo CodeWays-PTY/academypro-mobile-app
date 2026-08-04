@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/network_service.dart';
 import '../../core/storage/local_storage.dart';
 import '../../features/auth/presentation/auth_state.dart';
+import '../utils/app_toast.dart';
 
 class NetworkErrorScreen extends ConsumerStatefulWidget {
   const NetworkErrorScreen({super.key});
@@ -23,20 +24,7 @@ class _NetworkErrorScreenState extends ConsumerState<NetworkErrorScreen> {
     if (mounted) {
       setState(() => _isChecking = false);
       if (!isConnected) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: const Color(0xFF0F172A),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-            content: const Row(
-              children: [
-                Icon(Icons.wifi_off_rounded, color: Color(0xFFEF4444), size: 20.0),
-                SizedBox(width: 10.0),
-                Text('Still offline. Please check mobile data or Wi-Fi.'),
-              ],
-            ),
-          ),
-        );
+        AppToast.showError(context, title: 'Still Offline', message: 'Please check your mobile data or Wi-Fi connection.');
       }
     }
   }

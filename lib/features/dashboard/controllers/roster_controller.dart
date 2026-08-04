@@ -119,7 +119,7 @@ class RosterNotifier extends StateNotifier<RosterState> {
       final newMap = Map<String, List<RosterPlayer>>.from(state.playersByAge);
       newMap[ageGroup] = newMap[ageGroup] ?? [];
       state = state.copyWith(playersByAge: newMap, loading: false, error: e.toString());
-      AppToast.showError(null, title: 'Network Error', message: 'Failed to load roster.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not load the squad roster. Please try again.');
     }
   }
 
@@ -133,11 +133,11 @@ class RosterNotifier extends StateNotifier<RosterState> {
         await fetchRoster(ageGroup);
         return true;
       }
-      AppToast.showError(null, title: 'Update Failed', message: 'Could not update squad assignments.');
+      AppToast.showError(null, title: 'Update Failed', message: 'Could not update squad assignments. Please try again.');
       return false;
     } catch (e) {
       debugPrint('Error in updatePlayerSquads: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to update player squads.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not update squads. Please check your connection.');
       return false;
     }
   }
@@ -152,7 +152,7 @@ class RosterNotifier extends StateNotifier<RosterState> {
       }
     } catch (e) {
       debugPrint('Error in fetchSchoolPlayers: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to search school players.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not search for players. Please try again.');
     }
     return [];
   }
@@ -167,11 +167,11 @@ class RosterNotifier extends StateNotifier<RosterState> {
         await fetchRoster(currentAgeGroup);
         return true;
       }
-      AppToast.showError(null, title: 'Squad Error', message: 'Could not add player to squad.');
+      AppToast.showError(null, title: 'Add Failed', message: 'Could not add the player to the squad. Please try again.');
       return false;
     } catch (e) {
       debugPrint('Error in addPlayerToSquad: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to add player to squad.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not add the player. Please check your connection.');
       return false;
     }
   }
@@ -186,11 +186,11 @@ class RosterNotifier extends StateNotifier<RosterState> {
         await fetchRoster(currentAgeGroup);
         return true;
       }
-      AppToast.showError(null, title: 'Squad Error', message: 'Could not remove player from squad.');
+      AppToast.showError(null, title: 'Remove Failed', message: 'Could not remove the player from the squad. Please try again.');
       return false;
     } catch (e) {
       debugPrint('Error in removePlayerFromSquad: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to remove player from squad.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not remove the player. Please check your connection.');
       return false;
     }
   }
@@ -222,7 +222,7 @@ class RosterNotifier extends StateNotifier<RosterState> {
       return false;
     } catch (e) {
       debugPrint('Error in registerAndAddPlayer: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to register player.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not register the player. Please check your connection.');
       return false;
     }
   }
@@ -267,13 +267,13 @@ class RosterNotifier extends StateNotifier<RosterState> {
         return true;
       } else {
         state = previousState;
-        AppToast.showError(null, title: 'Sync Failure', message: 'Failed to update position on server.');
+        AppToast.showError(null, title: 'Update Failed', message: 'Could not save the position change. Please try again.');
         return false;
       }
     } catch (e) {
       state = previousState;
       debugPrint('Error updating position on server: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Server sync failed. Position change reverted.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Position change could not be saved and was reverted.');
       return false;
     }
   }

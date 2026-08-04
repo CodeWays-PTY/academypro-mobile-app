@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/notification_controller.dart';
 import '../models/notification_item.dart';
+import '../../../core/utils/app_toast.dart';
 
 class NotificationsPanel extends ConsumerWidget {
   const NotificationsPanel({super.key});
@@ -286,12 +287,7 @@ class NotificationsPanel extends ConsumerWidget {
       onDismissed: (_) {
         HapticFeedback.mediumImpact();
         notifier.deleteNotification(item.id);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Notification removed'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        AppToast.showInfo(context, title: 'Removed', message: 'Notification dismissed.');
       },
       background: Container(
         alignment: Alignment.centerRight,

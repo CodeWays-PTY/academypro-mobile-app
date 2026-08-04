@@ -80,7 +80,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       debugPrint('Error in fetchNotifications: $e');
       state = state.copyWith(loading: false, error: e.toString());
       if (isUserInitiated) {
-        AppToast.showError(null, title: 'Network Failure', message: 'Could not refresh notifications.');
+        AppToast.showError(null, title: 'Connection Issue', message: 'Could not refresh notifications. Please try again.');
       }
     }
   }
@@ -104,7 +104,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       await _apiClient.dio.post('/api/notifications/$id/read');
     } catch (e) {
       debugPrint('Error in markAsRead: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to update notification status.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not update notification. Please try again.');
     }
   }
 
@@ -116,7 +116,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       await _apiClient.dio.post('/api/notifications/read-all');
     } catch (e) {
       debugPrint('Error in markAllAsRead: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to mark notifications as read.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not mark notifications as read. Please try again.');
     }
   }
 
@@ -132,7 +132,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
         await _apiClient.dio.delete('/api/notifications/$id');
       } catch (err) {
         debugPrint('Error in deleteNotification: $err');
-        AppToast.showError(null, title: 'Network Failure', message: 'Failed to delete notification.');
+        AppToast.showError(null, title: 'Connection Issue', message: 'Could not delete the notification. Please try again.');
       }
     }
   }

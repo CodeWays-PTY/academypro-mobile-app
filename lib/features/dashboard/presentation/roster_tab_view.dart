@@ -661,29 +661,11 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                           }
                           if (context.mounted) {
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: success ? const Color(0xFF0F172A) : const Color(0xFFDC2626),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                                content: Row(
-                                  children: [
-                                    Icon(
-                                      success ? Icons.check_circle_outline : Icons.error_outline,
-                                      color: Colors.white,
-                                      size: 20.0,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      success
-                                          ? 'Position updated successfully'
-                                          : 'Failed to update position',
-                                      style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            if (success) {
+                              AppToast.showSuccess(context, title: 'Position Updated', message: 'Player position changed successfully.');
+                            } else {
+                              AppToast.showError(context, title: 'Update Failed', message: 'Could not update position. Please try again.');
+                            }
                           }
                         },
                   style: ElevatedButton.styleFrom(

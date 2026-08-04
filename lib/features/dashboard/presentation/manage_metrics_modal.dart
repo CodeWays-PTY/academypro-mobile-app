@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/network/api_client.dart';
+import '../../../core/utils/app_toast.dart';
 
 class ManageMetricsModal extends ConsumerStatefulWidget {
   const ManageMetricsModal({super.key});
@@ -83,20 +84,14 @@ class _ManageMetricsModalState extends ConsumerState<ManageMetricsModal> {
       if (response.statusCode == 200 && response.data['success'] == true) {
         _nameController.clear();
         _targetController.clear();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Test metric added successfully!'), backgroundColor: Color(0xFF10B981)),
-        );
+        AppToast.showSuccess(context, title: 'Metric Added', message: 'Test metric saved successfully.');
         await _fetchMetrics();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.data['message'] ?? 'Failed to save metric'), backgroundColor: Colors.red),
-        );
+        AppToast.showError(context, title: 'Save Failed', message: 'Could not save the metric. Please try again.');
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving metric: $e'), backgroundColor: Colors.red),
-      );
+      AppToast.showError(context, title: 'Something Went Wrong', message: 'Could not save the metric. Please try again.');
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);

@@ -65,38 +65,20 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
         );
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: const Color(0xFF0F172A),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-              content: const Row(
-                children: [
-                  Icon(Icons.check_circle_outline, color: Color(0xFF10B981), size: 20.0),
-                  SizedBox(width: 10.0),
-                  Text('Push notifications enabled & active'),
-                ],
-              ),
-            ),
+          AppToast.showSuccess(
+            context,
+            title: 'Notifications Enabled',
+            message: "You'll receive live alerts and reminders.",
           );
         }
       }
     } else {
       await notifService.cancelAll();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: const Color(0xFF0F172A),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-            content: const Row(
-              children: [
-                Icon(Icons.notifications_off_outlined, color: Color(0xFF94A3B8), size: 20.0),
-                SizedBox(width: 10.0),
-                Text('Push notifications disabled'),
-              ],
-            ),
-          ),
+        AppToast.showInfo(
+          context,
+          title: 'Notifications Off',
+          message: 'Push notifications have been turned off.',
         );
       }
     }
@@ -118,26 +100,19 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
         });
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: const Color(0xFF0F172A),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-              content: const Row(
-                children: [
-                  Icon(Icons.camera_alt_outlined, color: Color(0xFF10B981), size: 20.0),
-                  SizedBox(width: 10.0),
-                  Text('Profile picture updated successfully'),
-                ],
-              ),
-            ),
+          AppToast.showSuccess(
+            context,
+            title: 'Photo Updated',
+            message: 'Profile picture updated successfully.',
           );
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not pick image: $e')),
+        AppToast.showError(
+          context,
+          title: 'Photo Error',
+          message: 'Could not select image. Please try again.',
         );
       }
     }

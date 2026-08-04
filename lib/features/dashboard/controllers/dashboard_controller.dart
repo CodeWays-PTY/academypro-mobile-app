@@ -102,7 +102,7 @@ class DashboardSummaryNotifier extends StateNotifier<DashboardSummaryState> {
     } catch (e) {
       debugPrint('Error in fetchSummary: $e');
       state = state.copyWith(loading: false, error: e.toString());
-      AppToast.showError(null, title: 'Network Error', message: 'Failed to load dashboard summary.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not load your dashboard. Please try again.');
     }
   }
 }
@@ -381,7 +381,7 @@ class CoachActionNotifier extends StateNotifier<List<CoachActionItem>> {
     } catch (e) {
       debugPrint('Error in fetchActions: $e');
       if (isUserInitiated) {
-        AppToast.showError(null, title: 'Network Failure', message: 'Failed to fetch coach actions.');
+        AppToast.showError(null, title: 'Connection Issue', message: 'Could not load your action plans. Please try again.');
       }
     }
   }
@@ -422,12 +422,12 @@ class CoachActionNotifier extends StateNotifier<List<CoachActionItem>> {
         await fetchActions();
       } else {
         state = previousState;
-        AppToast.showError(null, title: 'Action Error', message: 'Failed to save action to server.');
+        AppToast.showError(null, title: 'Save Failed', message: 'Could not save the action plan. Please try again.');
       }
     } catch (e) {
       state = previousState;
       debugPrint('Error in addAction: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to add coach action.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not add the action plan. Please check your connection.');
     }
   }
 
@@ -444,12 +444,12 @@ class CoachActionNotifier extends StateNotifier<List<CoachActionItem>> {
       final res = await _apiClient.post('/api/dashboard/actions/$actionId/toggle');
       if (res.statusCode != 200 && res.statusCode != 201) {
         state = previousState;
-        AppToast.showError(null, title: 'Toggle Failed', message: 'Could not toggle action status.');
+        AppToast.showError(null, title: 'Update Failed', message: 'Could not update the action status. Please try again.');
       }
     } catch (e) {
       state = previousState;
       debugPrint('Error in toggleAction: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to toggle action status.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not update the action. Please check your connection.');
     }
   }
 }
@@ -561,7 +561,7 @@ class SquadsNotifier extends StateNotifier<List<SquadItem>> {
       });
     } catch (e) {
       debugPrint('Error in createSquad: $e');
-      AppToast.showError(null, title: 'Network Failure', message: 'Failed to create squad on server.');
+      AppToast.showError(null, title: 'Connection Issue', message: 'Could not create the squad. Please check your connection.');
     }
 
     return newSquad;

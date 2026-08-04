@@ -255,9 +255,7 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Opening Support Agent check-in chat...')),
-          );
+          AppToast.showInfo(context, title: 'Support Chat', message: 'Opening your support agent chat...');
         },
         child: const Icon(Icons.support_agent, size: 32.0),
       ),
@@ -602,9 +600,7 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
                   const SizedBox(height: 28.0),
                   ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Event added to Calendar')),
-                      );
+                      AppToast.showSuccess(context, title: 'Calendar', message: 'Event added to your calendar.');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,

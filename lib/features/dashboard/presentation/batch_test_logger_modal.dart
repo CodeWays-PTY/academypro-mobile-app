@@ -337,18 +337,18 @@ class _BatchTestLoggerModalState extends ConsumerState<BatchTestLoggerModal> {
         AppToast.showSuccess(
           context,
           title: 'Scores Recorded',
-          message: 'Successfully logged ${logs.length} metric score(s)! Modal remains open for further logging.',
+          message: 'Successfully saved ${logs.length} score(s).',
         );
       } else {
         AppToast.showError(
           context,
           title: 'Submission Failed',
-          message: response.data['message'] ?? 'Failed to log test scores.',
+          message: 'Could not save the scores. Please try again.',
         );
       }
     } catch (e) {
       if (!mounted) return;
-      AppToast.showError(context, title: 'Network Error', message: 'Error submitting test scores: $e');
+      AppToast.showError(context, title: 'Connection Issue', message: 'Could not submit scores. Please check your connection.');
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
