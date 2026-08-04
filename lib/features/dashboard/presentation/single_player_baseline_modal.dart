@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/utils/app_toast.dart';
 import '../controllers/dashboard_controller.dart';
@@ -117,7 +118,7 @@ class _SinglePlayerBaselineModalState extends ConsumerState<SinglePlayerBaseline
           _testEvents = [
             CoachEvent(
               id: 'EVT-GEN-TEST',
-              schoolId: 1,
+              schoolId: '1',
               title: 'General Fitness Testing Session',
               eventType: 'Fitness Test',
               startTime: '09:00',

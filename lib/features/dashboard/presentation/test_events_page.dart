@@ -9,7 +9,6 @@ import '../controllers/dashboard_controller.dart';
 // ─── Design tokens ──────────────────────────────────────────
 const _navy = Color(0xFF0F172A);
 const _blue = Color(0xFF2563EB);
-const _blueDark = Color(0xFF1E40AF);
 const _green = Color(0xFF10B981);
 const _greenLight = Color(0xFFD1FAE5);
 const _greenDark = Color(0xFF059669);
