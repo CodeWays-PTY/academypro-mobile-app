@@ -13,10 +13,10 @@ workflows:
       vars:
         XCODE_WORKSPACE: "ios/Runner.xcworkspace"
         XCODE_SCHEME: "Runner"
-        BUNDLE_ID: "co.usport.coachApp"
+        BUNDLE_ID: "za.co.academyPro"
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: "co.usport.coachApp"
+        bundle_identifier: "za.co.academyPro"
       flutter: stable
       xcode: latest
       cocoapods: default
