@@ -8,7 +8,7 @@ import '../../../core/utils/app_toast.dart';
 import '../controllers/dashboard_controller.dart';
 import '../controllers/checkin_controller.dart';
 import 'create_event_modal.dart';
-import 'test_athletes_page.dart';
+import 'test_events_page.dart';
 
 class EventsTabView extends ConsumerStatefulWidget {
   const EventsTabView({super.key});
@@ -566,9 +566,8 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(ctx);
-                      TestAthletesPage.show(
+                      TestEventsPage.show(
                         context,
-                        event: event,
                         ageGroup: event.team.isNotEmpty ? event.team : 'U15',
                       );
                     },
