@@ -58,6 +58,9 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
     } else if (player.team.isNotEmpty) {
       parts.add(player.team.toUpperCase());
     }
+    if (player.age != null && player.age! > 0) {
+      parts.add('AGE ${player.age}');
+    }
     
     if (parts.isEmpty) {
       return Text(
@@ -395,122 +398,19 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${player.firstName} ${player.lastName}'.trim(),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF0F172A),
-                                        ),
-                                      ),
-                                    ),
-                                    if (player.age != null && player.age! > 0) ...[
-                                      const SizedBox(width: 8.0),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFF1F5F9), // slate-100
-                                          borderRadius: BorderRadius.circular(6.0),
-                                        ),
-                                        child: Text(
-                                          'Age ${player.age}',
-                                          style: const TextStyle(
-                                            fontSize: 11.0,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF475569), // slate-600
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 6.0),
-                                      InkWell(
-                                        onTap: () async {
-                                          final squads = ref.read(squadsProvider);
-                                          final activeSquad = squads.firstWhere(
-                                            (s) => s.ageGroup == selectedAgeGroup,
-                                            orElse: () => squads.isNotEmpty ? squads.first : SquadItem(id: 'default', name: 'Active Squad', ageGroup: selectedAgeGroup, description: ''),
-                                          );
-
-                                          final confirmed = await showDialog<bool>(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-                                              actionsPadding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 20.0),
-                                              title: const Text('Remove Player from Squad', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
-                                              content: Text(
-                                                'Are you sure you want to remove ${player.firstName} ${player.lastName} from ${activeSquad.name}?\n\nNote: This unassigns the athlete from this squad while keeping their profile intact in the school database.',
-                                                style: const TextStyle(fontSize: 13.5, color: Color(0xFF475569)),
-                                              ),
-                                              actions: [
-                                                OutlinedButton(
-                                                  onPressed: () => Navigator.pop(ctx, false),
-                                                  style: OutlinedButton.styleFrom(
-                                                    side: const BorderSide(color: Color(0xFFCBD5E1)),
-                                                    foregroundColor: const Color(0xFF475569),
-                                                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                  ),
-                                                  child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () => Navigator.pop(ctx, true),
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: const Color(0xFFDC2626),
-                                                    foregroundColor: Colors.white,
-                                                    elevation: 0,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
-                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                                                  ),
-                                                  child: const Text('Remove', style: TextStyle(fontWeight: FontWeight.bold)),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-
-                                          if (confirmed == true && context.mounted) {
-                                            final ok = await ref.read(rosterProvider.notifier).removePlayerFromSquad(player.id, activeSquad.id, selectedAgeGroup);
-                                            if (context.mounted) {
-                                              if (ok) {
-                                                AppToast.showSuccess(context, title: '${player.firstName} removed from ${activeSquad.name}');
-                                              } else {
-                                                AppToast.showError(context, title: 'Failed to remove player from squad');
-                                              }
-                                            }
-                                          }
-                                        },
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFFEF2F2),
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            border: Border.all(color: const Color(0xFFFECACA)),
-                                          ),
-                                          child: const Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(Icons.person_remove_outlined, size: 12.0, color: Color(0xFFDC2626)),
-                                              SizedBox(width: 4.0),
-                                              Text(
-                                                'Remove from Squad',
-                                                style: TextStyle(
-                                                  fontSize: 10.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFFDC2626),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ],
+                                Text(
+                                  ('${player.firstName} ${player.lastName}'.trim().isNotEmpty)
+                                      ? '${player.firstName} ${player.lastName}'.trim()
+                                      : (player.name.isNotEmpty ? player.name : 'Athlete'),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF0F172A),
+                                  ),
                                 ),
-                                const SizedBox(height: 6.0),
+                                const SizedBox(height: 4.0),
                                 _buildSubtitle(player),
                               ],
                             ),
