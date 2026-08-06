@@ -218,12 +218,9 @@ class CheckInNotifier extends StateNotifier<CheckInState> {
     return result;
   }
 
-  /// Toggle + immediately save to API (fire-and-forget)
-  Future<CheckInScanResult> toggleAndSaveCheckIn(String playerId) async {
-    final result = toggleCheckIn(playerId);
-    if (!result.success || state.selectedEvent == null) return result;
-
-    // Fire-and-forget: save this individual check-in to the server
+  /// Private helper: auto-save current attendance to backend API (fire-and-forget)
+  Future<void> _saveCurrentAttendanceToApi() async {
+    if (state.selectedEvent == null) return;
     try {
       final checkedInIds = state.playerRecords.values
           .where((r) => r.isCheckedIn)
@@ -239,11 +236,19 @@ class CheckInNotifier extends StateNotifier<CheckInState> {
         'ageGroup': state.activeAgeGroup,
         'checkedInPlayerIds': checkedInIds,
       });
-      // Silently refresh dashboard summary
+      // Silently refresh dashboard summary KPI
       _ref.read(dashboardSummaryProvider.notifier).fetchSummary(ageGroup: state.activeAgeGroup);
     } catch (_) {
-      // Silent fail — the toggle is already applied locally
+      // Silent fail — state is already updated locally
     }
+  }
+
+  /// Toggle + immediately save to API (fire-and-forget)
+  Future<CheckInScanResult> toggleAndSaveCheckIn(String playerId) async {
+    final result = toggleCheckIn(playerId);
+    if (!result.success || state.selectedEvent == null) return result;
+
+    _saveCurrentAttendanceToApi();
 
     return result;
   }
@@ -320,6 +325,9 @@ class CheckInNotifier extends StateNotifier<CheckInState> {
       playerRecords: updatedMap,
       lastScanResult: res,
     );
+
+    // Auto-save check-in to server immediately on QR scan
+    _saveCurrentAttendanceToApi();
 
     return res;
   }
