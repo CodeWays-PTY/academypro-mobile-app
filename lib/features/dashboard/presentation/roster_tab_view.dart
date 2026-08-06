@@ -632,7 +632,7 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                   ),
                   const SizedBox(height: 12.0),
                   DropdownButtonFormField<String>(
-                    value: selectedPos,
+                    initialValue: selectedPos,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
