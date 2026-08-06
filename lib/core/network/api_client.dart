@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../storage/local_storage.dart';
@@ -43,9 +45,28 @@ class ApiClient {
     ));
   }
 
-  // Direct HTTP GET request
+  // HTTP GET request with automatic Hive caching and offline fallback
   Future<Response> getAndCache(String path, {Map<String, dynamic>? queryParameters}) async {
-    return await dio.get(path, queryParameters: queryParameters);
+    final cacheKey = '$path:${queryParameters != null ? jsonEncode(queryParameters) : ''}';
+    try {
+      final response = await dio.get(path, queryParameters: queryParameters);
+      if (response.statusCode == 200 && response.data != null) {
+        await LocalStorage.cacheData(cacheKey, response.data);
+      }
+      return response;
+    } catch (e) {
+      debugPrint('ApiClient.getAndCache network error for $path: $e. Checking local Hive cache...');
+      final cachedData = LocalStorage.getCachedData(cacheKey);
+      if (cachedData != null) {
+        debugPrint('ApiClient.getAndCache served offline cache for $path');
+        return Response(
+          requestOptions: RequestOptions(path: path, queryParameters: queryParameters),
+          data: cachedData,
+          statusCode: 200,
+        );
+      }
+      rethrow;
+    }
   }
 
   // Helper method for POST requests
@@ -60,3 +81,4 @@ class ApiClient {
 }
 
 final apiClientProvider = Provider<ApiClient>((ref) => ApiClient());
+

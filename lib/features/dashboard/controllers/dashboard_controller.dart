@@ -76,7 +76,7 @@ class DashboardSummaryNotifier extends StateNotifier<DashboardSummaryState> {
 
   DashboardSummaryNotifier(this._apiClient) : super(DashboardSummaryState.initial());
 
-  Future<void> fetchSummary({String ageGroup = 'U15'}) async {
+  Future<void> fetchSummary({String ageGroup = 'U15', bool isUserInitiated = false}) async {
     state = state.copyWith(loading: true);
     try {
       final response = await _apiClient.getAndCache('/api/dashboard/summary?ageGroup=$ageGroup');
@@ -102,7 +102,9 @@ class DashboardSummaryNotifier extends StateNotifier<DashboardSummaryState> {
     } catch (e) {
       debugPrint('Error in fetchSummary: $e');
       state = state.copyWith(loading: false, error: e.toString());
-      AppToast.showError(null, title: 'Connection Issue', message: 'Could not load your dashboard. Please try again.');
+      if (isUserInitiated) {
+        AppToast.showError(null, title: 'Connection Issue', message: 'Could not load your dashboard. Please try again.');
+      }
     }
   }
 }

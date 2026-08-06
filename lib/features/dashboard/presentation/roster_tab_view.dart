@@ -589,7 +589,26 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
   }
 
   void _showEditPositionDialog(BuildContext context, WidgetRef ref, RosterPlayer player, [VoidCallback? onUpdated]) {
-    final controller = TextEditingController(text: player.position);
+    const rugbyPositionsList = [
+      'Loosehead Prop',
+      'Hooker',
+      'Tighthead Prop',
+      'Lock',
+      'Blindside Flanker',
+      'Openside Flanker',
+      'Number 8',
+      'Scrumhalf',
+      'Flyhalf',
+      'Left Wing',
+      'Inside Center',
+      'Outside Center',
+      'Right Wing',
+      'Fullback',
+      'Utility Forward',
+      'Utility Back',
+    ];
+    String selectedPos = rugbyPositionsList.contains(player.position) ? player.position : rugbyPositionsList.first;
+    final controller = TextEditingController(text: selectedPos);
     showDialog(
       context: context,
       builder: (context) {
@@ -612,12 +631,9 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                     style: const TextStyle(color: Color(0xFF64748B), fontSize: 13.0),
                   ),
                   const SizedBox(height: 12.0),
-                  TextField(
-                    controller: controller,
-                    enabled: !saving,
-                    autofocus: true,
+                  DropdownButtonFormField<String>(
+                    value: selectedPos,
                     decoration: InputDecoration(
-                      hintText: 'e.g. Flanker / No. 8',
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -630,6 +646,18 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                         borderSide: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
                       ),
                     ),
+                    items: rugbyPositionsList.map((pos) {
+                      return DropdownMenuItem<String>(
+                        value: pos,
+                        child: Text(pos, style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600)),
+                      );
+                    }).toList(),
+                    onChanged: saving ? null : (val) {
+                      if (val != null) {
+                        selectedPos = val;
+                        controller.text = val;
+                      }
+                    },
                   ),
                 ],
               ),

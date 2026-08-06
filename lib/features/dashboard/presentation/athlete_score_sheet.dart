@@ -14,12 +14,12 @@ class AthleteScoreSheet extends ConsumerStatefulWidget {
   final Map<String, dynamic> savedScores;
 
   const AthleteScoreSheet({
-    Key? key,
+    super.key,
     required this.athlete,
     required this.event,
     required this.metrics,
     required this.savedScores,
-  }) : super(key: key);
+  });
 
   static Future<bool?> show(
     BuildContext context, {

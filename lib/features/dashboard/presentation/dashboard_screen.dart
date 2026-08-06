@@ -13,7 +13,6 @@ import 'checkin_tab_view.dart';
 import 'events_tab_view.dart';
 import 'profile_tab_view.dart';
 import 'create_action_modal.dart';
-import 'manage_metrics_modal.dart';
 import 'test_events_page.dart';
 
 import '../../notifications/controllers/notification_controller.dart';
@@ -242,41 +241,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ),
             ),
             const SizedBox(height: 10.0),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      final currentAge = ref.read(selectedAgeGroupProvider);
-                      TestEventsPage.show(context, ageGroup: currentAge);
-                    },
-                    icon: const Icon(Icons.speed, size: 16.0, color: Color(0xFF2563EB)),
-                    label: const Text('Log Squad Test', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: const Color(0xFF2563EB),
-                      side: const BorderSide(color: Color(0xFFBFDBFE)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    ),
-                  ),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  final currentAge = ref.read(selectedAgeGroupProvider);
+                  TestEventsPage.show(context, ageGroup: currentAge);
+                },
+                icon: const Icon(Icons.speed, size: 16.0, color: Color(0xFF2563EB)),
+                label: const Text('Log Squad Test', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF2563EB),
+                  side: const BorderSide(color: Color(0xFFBFDBFE)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                 ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      ManageMetricsModal.show(context);
-                    },
-                    icon: const Icon(Icons.tune, size: 16.0, color: Color(0xFF475569)),
-                    label: const Text('Test Metrics', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold)),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: const Color(0xFF475569),
-                      side: const BorderSide(color: Color(0xFFCBD5E1)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             const SizedBox(height: 20.0),
 

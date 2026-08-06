@@ -11,7 +11,7 @@ class SquadInfo {
 
   SquadInfo({required this.id, required this.name, required this.code});
 
-  factory SquadInfo.fromJson(Map<String, dynamic> json) {
+  factory SquadInfo.fromJson(Map<dynamic, dynamic> json) {
     return SquadInfo(
       id: TypeParsers.parseString(json['id']),
       name: TypeParsers.parseString(json['name']),
@@ -43,18 +43,24 @@ class RosterPlayer {
     List<SquadInfo>? assignedSquads,
   })  : assignedSquads = assignedSquads ?? [];
 
-  factory RosterPlayer.fromJson(Map<String, dynamic> json) {
+  factory RosterPlayer.fromJson(Map<dynamic, dynamic> json) {
     final rawSquads = json['assignedSquads'] as List<dynamic>? ?? [];
+    final squadsList = <SquadInfo>[];
+    for (final s in rawSquads) {
+      if (s is Map) {
+        squadsList.add(SquadInfo.fromJson(s));
+      }
+    }
     return RosterPlayer(
       id: TypeParsers.parseString(json['id']),
       firstName: TypeParsers.parseString(json['firstName']),
       lastName: TypeParsers.parseString(json['lastName']),
       ageGroup: TypeParsers.parseString(json['ageGroup']),
-      position: TypeParsers.parseString(json['position']),
+      position: TypeParsers.parseString(json['position'], 'Athlete'),
       team: TypeParsers.parseString(json['team']),
       status: TypeParsers.parseString(json['status']),
       age: TypeParsers.parseNullableInt(json['age']),
-      assignedSquads: rawSquads.map((s) => SquadInfo.fromJson(s as Map<String, dynamic>)).toList(),
+      assignedSquads: squadsList,
     );
   }
 }
@@ -93,7 +99,7 @@ class RosterNotifier extends StateNotifier<RosterState> {
 
   RosterNotifier(this._apiClient) : super(RosterState.initial());
 
-  Future<void> fetchRoster(String ageGroup) async {
+  Future<void> fetchRoster(String ageGroup, {bool isUserInitiated = false}) async {
     state = state.copyWith(loading: true);
     try {
       final response = await _apiClient.getAndCache('/api/rosters/$ageGroup');
@@ -119,7 +125,9 @@ class RosterNotifier extends StateNotifier<RosterState> {
       final newMap = Map<String, List<RosterPlayer>>.from(state.playersByAge);
       newMap[ageGroup] = newMap[ageGroup] ?? [];
       state = state.copyWith(playersByAge: newMap, loading: false, error: e.toString());
-      AppToast.showError(null, title: 'Connection Issue', message: 'Could not load the squad roster. Please try again.');
+      if (isUserInitiated) {
+        AppToast.showError(null, title: 'Connection Issue', message: 'Could not load the squad roster. Please try again.');
+      }
     }
   }
 

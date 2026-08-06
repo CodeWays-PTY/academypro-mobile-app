@@ -538,7 +538,12 @@ class _ScoreSheetState extends ConsumerState<_ScoreSheet> {
   }
 
   @override
-  void dispose() { for (final c in _ctrls.values) c.dispose(); super.dispose(); }
+  void dispose() {
+    for (final c in _ctrls.values) {
+      c.dispose();
+    }
+    super.dispose();
+  }
 
   Future<void> _save() async {
     final logs = <Map<String, dynamic>>[];
