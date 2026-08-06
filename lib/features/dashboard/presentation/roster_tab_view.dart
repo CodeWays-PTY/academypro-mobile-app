@@ -401,7 +401,7 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                                 Text(
                                   ('${player.firstName} ${player.lastName}'.trim().isNotEmpty)
                                       ? '${player.firstName} ${player.lastName}'.trim()
-                                      : (player.name.isNotEmpty ? player.name : 'Athlete'),
+                                      : 'Athlete',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
