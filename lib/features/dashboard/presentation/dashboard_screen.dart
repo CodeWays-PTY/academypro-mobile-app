@@ -181,7 +181,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16.0, bottom: 100.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16.0, bottom: 140.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -283,18 +283,40 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
             ),
             const SizedBox(height: 12.0),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildKpiCard(
-                    'SQUAD HEALTH',
-                    'Optimum',
-                    Icons.favorite_outline,
-                    summary.loading,
-                    subtitle: '${summary.uniReady + summary.onTrack} of ${summary.totalPlayers} fit units',
-                  ),
-                ),
-              ],
+            Builder(
+              builder: (context) {
+                final fitUnits = summary.uniReady + summary.onTrack;
+                final total = summary.totalPlayers;
+                final String squadHealthTitle;
+                if (total == 0) {
+                  squadHealthTitle = 'No Roster';
+                } else {
+                  final ratio = fitUnits / total;
+                  if (ratio >= 0.8) {
+                    squadHealthTitle = 'Optimum';
+                  } else if (ratio >= 0.5) {
+                    squadHealthTitle = 'Good';
+                  } else if (ratio >= 0.25) {
+                    squadHealthTitle = 'Needs Focus';
+                  } else {
+                    squadHealthTitle = 'Attention Needed';
+                  }
+                }
+
+                return Row(
+                  children: [
+                    Expanded(
+                      child: _buildKpiCard(
+                        'SQUAD HEALTH',
+                        squadHealthTitle,
+                        Icons.favorite_outline,
+                        summary.loading,
+                        subtitle: '$fitUnits of $total fit units',
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 28.0),
 
@@ -533,20 +555,25 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             const SizedBox(height: 12.0),
 
             if (coachActions.isEmpty)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                ),
-                child: const Center(
-                  child: Text(
-                    'No open action tasks. Use "Set Action Plan" on any player to define custom tasks.',
-                    style: TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'No open action tasks. Use "Set Action Plan" on any player to define custom tasks.',
+                        style: TextStyle(fontSize: 12.0, color: Color(0xFF64748B)),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 32.0),
+                ],
               )
             else
               ListView.separated(

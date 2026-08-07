@@ -913,8 +913,6 @@ class _RosterTabViewState extends ConsumerState<RosterTabView> {
                                     );
                                   }),
                                 _buildPositionRow(context, ref, player, () => setSheetState(() {}), preferredPos),
-                                const Divider(height: 1.0, color: Color(0xFFE2E8F0)),
-                                _buildProfileRow('Athlete System ID', player.id),
                               ],
                             ),
                           ),

@@ -18,6 +18,8 @@ class EventsTabView extends ConsumerStatefulWidget {
 }
 
 class _EventsTabViewState extends ConsumerState<EventsTabView> {
+  bool _showAllUpcoming = false;
+
   @override
   void initState() {
     super.initState();
@@ -211,16 +213,62 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                         ),
                       ),
                     )
-                  else
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: upcomingEvents.length,
-                      separatorBuilder: (ctx, i) => const SizedBox(height: 12.0),
-                      itemBuilder: (context, index) {
-                        return _buildEventCard(context, upcomingEvents[index]);
+                  else ...[
+                    Builder(
+                      builder: (context) {
+                        final displayedUpcoming = (_showAllUpcoming || upcomingEvents.length <= 3)
+                            ? upcomingEvents
+                            : upcomingEvents.take(3).toList();
+                        return Column(
+                          children: [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: displayedUpcoming.length,
+                              separatorBuilder: (ctx, i) => const SizedBox(height: 12.0),
+                              itemBuilder: (context, index) {
+                                return _buildEventCard(context, displayedUpcoming[index]);
+                              },
+                            ),
+                            if (upcomingEvents.length > 3) ...[
+                              const SizedBox(height: 12.0),
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextButton.icon(
+                                  onPressed: () {
+                                    HapticFeedback.lightImpact();
+                                    setState(() {
+                                      _showAllUpcoming = !_showAllUpcoming;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _showAllUpcoming ? Icons.expand_less : Icons.expand_more,
+                                    size: 18.0,
+                                    color: const Color(0xFF2563EB),
+                                  ),
+                                  label: Text(
+                                    _showAllUpcoming
+                                        ? 'Show Fewer Events'
+                                        : 'Load More Upcoming Sessions (${upcomingEvents.length - 3} remaining)',
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF2563EB),
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                    backgroundColor: const Color(0xFFEFF6FF),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        );
                       },
                     ),
+                  ],
 
                   if (pastEvents.isNotEmpty) ...[
                     const SizedBox(height: 24.0),

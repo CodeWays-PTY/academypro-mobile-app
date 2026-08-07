@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 
 import 'core/services/network_service.dart';
 import 'core/presentation/network_error_screen.dart';
+import 'core/services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,13 @@ void main() async {
 
   // Initialize Hive storage helper
   await LocalStorage.init();
+
+  // Initialize Notification Service
+  try {
+    await NotificationService().init();
+  } catch (e) {
+    debugPrint('[Notification init error] $e');
+  }
 
   runApp(
     const ProviderScope(

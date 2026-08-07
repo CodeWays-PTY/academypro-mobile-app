@@ -22,7 +22,6 @@ class ProfileTabView extends ConsumerStatefulWidget {
 
 class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
   late bool _pushNotifications;
-  String _appVersion = '1.0.0';
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -31,18 +30,6 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
     // Load push notification setting from local storage
     final savedPush = LocalStorage.getCachedData('push_notifications_enabled');
     _pushNotifications = savedPush is bool ? savedPush : true;
-    _loadAppVersion();
-  }
-
-  Future<void> _loadAppVersion() async {
-    try {
-      final info = await PackageInfo.fromPlatform();
-      if (mounted && info.version.isNotEmpty) {
-        setState(() {
-          _appVersion = info.version;
-        });
-      }
-    } catch (_) {}
   }
 
   Future<void> _handlePushToggle(bool enabled) async {
@@ -1102,28 +1089,7 @@ class _ProfileTabViewState extends ConsumerState<ProfileTabView> {
                 onChanged: (val) => _handlePushToggle(val),
               ),
             ]),
-            const SizedBox(height: 24.0),
-
-            // Section 3: App Info
-            _buildSectionTitle('SYSTEM INFO'),
-            const SizedBox(height: 10.0),
-            _buildCardGroup([
-              _buildSettingTile(
-                icon: Icons.info_outline,
-                title: 'About AcademyPro',
-                subtitle: 'High-Performance Sports & Academic Management System',
-                trailing: Text(
-                  'v$_appVersion',
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF737688),
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ]),
-            const SizedBox(height: 32.0),
+            const SizedBox(height: 16.0),
 
             // Logout Button
             SizedBox(

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/network/api_client.dart';
+import '../../../core/services/notification_service.dart';
+import '../../../core/storage/local_storage.dart';
 import '../../../core/utils/app_toast.dart';
 import '../models/notification_item.dart';
 
@@ -73,6 +75,24 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
           loading: false,
           error: null,
         );
+
+        // Deliver system notification if user has enabled push notifications
+        final pushEnabled = LocalStorage.getCachedData('push_notifications_enabled') ?? true;
+        if (pushEnabled is bool && pushEnabled) {
+          final unreadItems = items.where((i) => !i.isRead).toList();
+          if (unreadItems.isNotEmpty) {
+            final latest = unreadItems.first;
+            final lastNotifiedId = LocalStorage.getCachedData('last_notified_id');
+            if (lastNotifiedId?.toString() != latest.id.toString()) {
+              NotificationService().showNotification(
+                id: latest.id,
+                title: latest.title,
+                body: latest.body,
+              );
+              LocalStorage.cacheData('last_notified_id', latest.id);
+            }
+          }
+        }
       } else {
         state = state.copyWith(loading: false, error: response.data?['message'] ?? 'Failed to load notifications');
       }

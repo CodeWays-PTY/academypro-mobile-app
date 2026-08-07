@@ -514,8 +514,7 @@ class SquadsNotifier extends StateNotifier<List<SquadItem>> {
           }
         }
 
-        final allSquadItem = SquadItem(id: 'all', name: 'All Managed Squads', ageGroup: 'All');
-        final finalSquads = [allSquadItem, ...mergedMap.values.where((s) => s.ageGroup != 'ALL' && s.ageGroup != 'All')];
+        final finalSquads = mergedMap.values.where((s) => s.ageGroup != 'ALL' && s.ageGroup != 'All').toList();
         state = finalSquads;
         await _updateHiveCache(finalSquads);
         return;
@@ -528,10 +527,9 @@ class SquadsNotifier extends StateNotifier<List<SquadItem>> {
       final cachedRaw = LocalStorage.getCachedData('/api/squads');
       if (cachedRaw is List && cachedRaw.isNotEmpty) {
         final cachedItems = cachedRaw.map((x) => SquadItem.fromJson(Map<String, dynamic>.from(x))).toList();
-        final allSquadItem = SquadItem(id: 'all', name: 'All Managed Squads', ageGroup: 'All');
-        state = [allSquadItem, ...cachedItems.where((s) => s.ageGroup != 'ALL' && s.ageGroup != 'All')];
+        state = cachedItems.where((s) => s.ageGroup != 'ALL' && s.ageGroup != 'All').toList();
       } else {
-        state = [SquadItem(id: 'all', name: 'All Managed Squads', ageGroup: 'All')];
+        state = [];
       }
     }
   }
@@ -579,10 +577,10 @@ final squadsProvider = StateNotifierProvider<SquadsNotifier, List<SquadItem>>((r
 final selectedAgeGroupProvider = StateProvider<String>((ref) {
   final squads = ref.watch(squadsProvider);
   final cached = LocalStorage.getCachedData('selected_age_group');
-  if (cached is String && cached.isNotEmpty && cached != 'None' && squads.any((s) => s.ageGroup == cached)) {
+  if (cached is String && cached.isNotEmpty && cached != 'None' && cached != 'All' && squads.any((s) => s.ageGroup == cached)) {
     return cached;
   }
-  return 'All';
+  return squads.isNotEmpty ? squads.first.ageGroup : 'U15';
 });
 
 final dashboardTabProvider = StateProvider<int>((ref) => 0);

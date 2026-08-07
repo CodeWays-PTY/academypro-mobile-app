@@ -25,6 +25,7 @@ class StudentDashboardScreen extends ConsumerStatefulWidget {
 
 class _StudentDashboardScreenState extends ConsumerState<StudentDashboardScreen> {
   int _activeTab = 0;
+  bool _showAllStudentEvents = false;
 
   @override
   void initState() {
@@ -2673,10 +2674,14 @@ class _StudentDashboardScreenState extends ConsumerState<StudentDashboardScreen>
       );
     }
 
+    final displayedEvents = (_showAllStudentEvents || activeEvents.length <= 3)
+        ? activeEvents
+        : activeEvents.take(3).toList();
+
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16.0, bottom: 140.0),
-      itemCount: activeEvents.length + 1,
+      itemCount: displayedEvents.length + 1 + (activeEvents.length > 3 ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == 0) {
           return const Column(
@@ -2696,7 +2701,40 @@ class _StudentDashboardScreenState extends ConsumerState<StudentDashboardScreen>
           );
         }
 
-        final event = activeEvents[index - 1];
+        if (index == displayedEvents.length + 1 && activeEvents.length > 3) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: TextButton.icon(
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  setState(() {
+                    _showAllStudentEvents = !_showAllStudentEvents;
+                  });
+                },
+                icon: Icon(
+                  _showAllStudentEvents ? Icons.expand_less : Icons.expand_more,
+                  size: 18.0,
+                  color: const Color(0xFF2563EB),
+                ),
+                label: Text(
+                  _showAllStudentEvents
+                      ? 'Show Fewer Events'
+                      : 'Load More Team Events (${activeEvents.length - 3} remaining)',
+                  style: const TextStyle(fontSize: 13.0, fontWeight: FontWeight.bold, color: Color(0xFF2563EB)),
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
+                  backgroundColor: const Color(0xFFEFF6FF),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0)),
+                ),
+              ),
+            ),
+          );
+        }
+
+        final event = displayedEvents[index - 1];
         final hasImage = event.workoutImagePath != null && event.workoutImagePath!.trim().isNotEmpty;
         final countdown = _formatCountdown(event.date, event.startTime);
         final themeMap = _getEventTypeTheme(event.eventType);
