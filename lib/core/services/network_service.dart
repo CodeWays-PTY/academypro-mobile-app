@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Minimal network status — only set to offline when actual API calls fail.
@@ -14,8 +12,14 @@ class NetworkStatusNotifier extends StateNotifier<bool> {
   void markOnline() {
     if (state != true) state = true;
   }
+
+  Future<bool> checkRealConnection() async {
+    state = true;
+    return true;
+  }
 }
 
 final networkStatusProvider = StateNotifierProvider<NetworkStatusNotifier, bool>((ref) {
   return NetworkStatusNotifier();
 });
+
