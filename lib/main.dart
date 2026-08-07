@@ -82,15 +82,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     }
 
     final isOnline = ref.watch(networkStatusProvider);
-    if (!isOnline) {
-      return MaterialApp(
-        navigatorKey: AppToast.navigatorKey,
-        title: 'AcademyPro Athlete Command',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        home: const NetworkErrorScreen(),
-      );
-    }
 
     final authState = ref.watch(authProvider);
     final token = LocalStorage.getToken();
@@ -153,6 +144,18 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'AcademyPro Athlete Command',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            child ?? homeScreen,
+            // Full-screen overlay when offline — keeps the app tree alive underneath
+            if (!isOnline)
+              const Positioned.fill(
+                child: NetworkErrorScreen(),
+              ),
+          ],
+        );
+      },
       home: homeScreen,
     );
   }
