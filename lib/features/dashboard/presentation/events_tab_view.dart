@@ -174,6 +174,7 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
                       itemCount: todayEvents.length,
                       separatorBuilder: (ctx, i) => const SizedBox(height: 12.0),
                       itemBuilder: (context, index) {
@@ -224,6 +225,7 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                             ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
                               itemCount: displayedUpcoming.length,
                               separatorBuilder: (ctx, i) => const SizedBox(height: 12.0),
                               itemBuilder: (context, index) {
@@ -285,6 +287,7 @@ class _EventsTabViewState extends ConsumerState<EventsTabView> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
                       itemCount: pastEvents.length,
                       separatorBuilder: (ctx, i) => const SizedBox(height: 12.0),
                       itemBuilder: (context, index) {

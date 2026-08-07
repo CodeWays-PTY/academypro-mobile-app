@@ -12,8 +12,7 @@ import 'features/parent/presentation/parent_dashboard_screen.dart';
 
 import 'package:flutter/services.dart';
 
-import 'core/services/network_service.dart';
-import 'core/presentation/network_error_screen.dart';
+
 import 'core/services/notification_service.dart';
 
 void main() async {
@@ -81,8 +80,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       );
     }
 
-    final isOnline = ref.watch(networkStatusProvider);
-
     final authState = ref.watch(authProvider);
     final token = LocalStorage.getToken();
     final profile = authState.userProfile ?? LocalStorage.getUserProfile();
@@ -144,18 +141,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'AcademyPro Athlete Command',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      builder: (context, child) {
-        return Stack(
-          children: [
-            child ?? homeScreen,
-            // Full-screen overlay when offline — keeps the app tree alive underneath
-            if (!isOnline)
-              const Positioned.fill(
-                child: NetworkErrorScreen(),
-              ),
-          ],
-        );
-      },
       home: homeScreen,
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../storage/local_storage.dart';
+import '../utils/app_toast.dart';
 
 class ApiClient {
   static const String _productionUrl = 'https://api.academypro.co.za';
@@ -38,7 +39,12 @@ class ApiClient {
             e.type == DioExceptionType.receiveTimeout ||
             e.type == DioExceptionType.connectionError ||
             e.error is SocketException) {
-          // Trigger network state recheck on connection failures
+          // Show a simple toast — don't block the app
+          AppToast.showError(
+            null,
+            title: 'Connection Problem',
+            message: 'Please check your internet connection and try again.',
+          );
         }
         return handler.next(e);
       },
